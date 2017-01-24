@@ -1,0 +1,14 @@
+﻿<Window x:Class="Kaldersvell_Connect_Windows.ConnectionView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Kaldersvell_Connect_Windows"
+        mc:Ignorable="d"
+        MinWidth="510" MaxWidth="510" MinHeight="530" MaxHeight="530"
+        Title="Connection" Height="530" Width="510" Background="#FF2E2E2E"
+        Icon="kaldersvellico.ico">
+    <Grid>
+        
+    </Grid>
+</Window>

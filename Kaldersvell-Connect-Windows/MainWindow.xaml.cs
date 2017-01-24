@@ -17,6 +17,7 @@ using System.Security;
 using System.Security.Cryptography;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace Kaldersvell_Connect_Windows
 {
@@ -29,15 +30,38 @@ namespace Kaldersvell_Connect_Windows
         {
             InitializeComponent();
             add.Click += Add_Click;
+            load.Click += Load_Click;
+        }
+
+        private void Load_Click(object sender, RoutedEventArgs e)
+        {
+            Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Documents\\Kaldersvell Connect\\Connections\\");
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Documents\\Kaldersvell Connect\\Connections\\";
+            var result = fileDialog.ShowDialog();
+            string file = "";
+            switch (result)
+            {
+                case System.Windows.Forms.DialogResult.OK:
+                    file = fileDialog.FileName;
+                    break;
+                case System.Windows.Forms.DialogResult.Cancel:
+                default:
+                    break;
+            }
+            if(file != "")
+            {
+                string input = File.ReadAllText(file);
+                Connection c = JsonConvert.DeserializeObject<Connection>(input);
+                ConnectionView newConnectionView = new ConnectionView(c);
+                newConnectionView.ShowDialog();
+            }
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
             AddConnection newConnection = new AddConnection();
             newConnection.ShowDialog();
-            string name = "";
-            name.Replace(' ', '_');
-
         }
     }
 }

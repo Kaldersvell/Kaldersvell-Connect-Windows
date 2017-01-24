@@ -5,30 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kaldersvell_Connect_Windows"
         mc:Ignorable="d"
-        MinWidth="800" MaxWidth="800" MinHeight="500" MaxHeight="500"
-        Title="Kaldersvell Connect" Height="500" Width="800" Background="#FF2E2E2E">
+        MinWidth="510" MaxWidth="510" MinHeight="530" MaxHeight="530"
+        Title="Kaldersvell Connect" Height="530" Width="510" Background="#FF2E2E2E"
+        Icon="kaldersvellico.ico"
+        >
 
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="250" />
+            <RowDefinition Height="250" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100" />
-            <ColumnDefinition Width="600" />
-            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="250" />
         </Grid.ColumnDefinitions>
-        <Rectangle Grid.Row="0" Fill="#FF707070" Grid.ColumnSpan="3" Margin="0,0,8,0" />
-        <Button x:Name="add" Grid.Row="0" Grid.Column="1" Content="Add Device" HorizontalAlignment="Center" Margin="0,10,0,10" VerticalAlignment="Top" Width="305" Height="25" Background="#FF555555" BorderBrush="#00707070" Foreground="#FFCDCDCD">
-            <Button.Effect>
-                <DropShadowEffect/>
-            </Button.Effect>
+        <Image x:Name="logo" Source="Kaldersvell256v4.png" Height="220" Width="220">
+        </Image>
+        <Button x:Name="add" Grid.Row="0" Grid.Column="1" Content="Add Device" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Width="230" Height="230" Background="#FF555555" BorderBrush="#00707070" Foreground="#FFCDCDCD" FontSize="20">
         </Button>
-        <ScrollViewer Grid.Column="1" HorizontalAlignment="Left" Height="424" Grid.Row="2" VerticalAlignment="Top" Width="600">
-            
-        </ScrollViewer>
-
+        
+        <Button x:Name="load" Grid.Row="1" Grid.Column="1" Content="Load Device" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Width="230" Height="230" Background="#FF555555" BorderBrush="#00707070" Foreground="#FFCDCDCD" FontSize="20">
+        </Button>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Center" Grid.Row="1" TextWrapping="Wrap" Text="Kaldersvell Connect" VerticalAlignment="Center" Foreground="#FFE0F6FF" FontSize="40" TextAlignment="Center"/>
     </Grid>
 </Window>
