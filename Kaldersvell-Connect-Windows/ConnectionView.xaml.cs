@@ -48,7 +48,7 @@ namespace Kaldersvell_Connect_Windows
             {
                 CreateKey();
             }
-            if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Documents\\Kaldersvell Connect\\Keys\\" + "DefaultOpenSSHPrivateKey.pem"))
+            if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Documents\\Kaldersvell Connect\\Keys\\" + "DefaultOpenSSHPrivateKey.pem"))
             {
                 using (ssh = new SshClient(CreateConnectionInfo(c)))
                 {

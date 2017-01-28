@@ -5,10 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kaldersvell_Connect_Windows"
         mc:Ignorable="d"
-        MinWidth="510" MaxWidth="510" MinHeight="530" MaxHeight="530"
-        Title="Connection" Height="530" Width="510" Background="#FF2E2E2E"
+        MinWidth="510" MaxWidth="510" MinHeight="405" MaxHeight="405"
+        Title="Connection" Height="405" Width="510" Background="#FF2E2E2E"
         Icon="kaldersvellico.ico">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="125" />
+            <RowDefinition Height="125" />
+            <RowDefinition Height="125" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="125" />
+            <ColumnDefinition Width="125" />
+            <ColumnDefinition Width="125" />
+            <ColumnDefinition Width="125" />
+        </Grid.ColumnDefinitions>
+        <Rectangle Fill="#7F464646" HorizontalAlignment="Left" Height="125" Grid.Row="1" Width="504" Grid.ColumnSpan="4"/>
+
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" TextWrapping="Wrap" Text="Run Script" VerticalAlignment="Center" Foreground="#FFE0F6FF" FontSize="20" TextAlignment="Center"/>
+        <TextBlock x:Name="textBlock1" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" TextWrapping="Wrap" Text="Install Package" VerticalAlignment="Center" Foreground="#FFE0F6FF" FontSize="20" TextAlignment="Center"/>
+        <TextBlock x:Name="textBlock2" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" TextWrapping="Wrap" Text="Advanced" VerticalAlignment="Center" Foreground="#FFE0F6FF" FontSize="20" TextAlignment="Center"/>
+
+        <Button x:Name="runPython2" Grid.Row="0" Grid.Column="1" Content="Python 2.7" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Width="110" Height="110" Background="#FF464646" BorderBrush="#00707070" Foreground="#FFCDCDCD" FontSize="20"/>
+        <Button x:Name="runPython3" Grid.Row="0" Grid.Column="2" Content="Python 3" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Width="110" Height="110" Background="#FF464646" BorderBrush="#00707070" Foreground="#FFCDCDCD" FontSize="20"/>
+        <Button x:Name="PIP2" Grid.Row="1" Grid.Column="1" Content="Python 2.7" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Width="110" Height="110" Background="#FF464646" BorderBrush="#00707070" Foreground="#FFCDCDCD" FontSize="20"/>
+        <Button x:Name="PIP3" Grid.Row="1" Grid.Column="2" Content="Python 3" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Width="110" Height="110" Background="#FF464646" BorderBrush="#00707070" Foreground="#FFCDCDCD" FontSize="20"/>
+        <Button x:Name="APT" Grid.Row="1" Grid.Column="3" Content="System" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Width="110" Height="110" Background="#FF464646" BorderBrush="#00707070" Foreground="#FFCDCDCD" FontSize="20"/>
+        <Button x:Name="TerminalSession" Grid.Row="2" Grid.Column="1" Content="Terminal" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Width="110" Height="110" Background="#FF464646" BorderBrush="#00707070" Foreground="#FFCDCDCD" FontSize="20" ToolTip="Opens a new remote terminal window"/>
+
     </Grid>
 </Window>
