@@ -18,6 +18,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Chilkat;
 using Renci.SshNet;
+using System.Text.RegularExpressions;
 
 namespace Kaldersvell_Connect_Windows
 {
@@ -27,21 +28,101 @@ namespace Kaldersvell_Connect_Windows
     public partial class ConnectionView : Window
     {
         SshClient ssh;
+        ShellStream shellStream;
+        StreamReader reader;
+        StreamWriter writer;
+        Connection connection;
+        IDictionary<Renci.SshNet.Common.TerminalModes, uint> termkvp;
         public ConnectionView(Connection currentConnection)
         {
             InitializeComponent();
             this.Title = currentConnection.Name;
             this.Closing += ConnectionView_Closing;
-            
+            connection = currentConnection;
+            CreateConnection(connection);
+            runPython2.Click += RunPython2_Click;
+            runPython3.Click += RunPython3_Click;
+            PIP2.Click += PIP2_Click;
+            PIP3.Click += PIP3_Click;
+            APT.Click += APT_Click;
 
         }
+        private void APT_Click(object sender, RoutedEventArgs e)
+        {
+            string package = Microsoft.VisualBasic.Interaction.InputBox("Enter package name:", "apt-get install", "", 200, 200);
+            runSudoCommand("sudo apt-get -y install " + package);
+        }
+        private void PIP3_Click(object sender, RoutedEventArgs e)
+        {
+            string package = Microsoft.VisualBasic.Interaction.InputBox("Enter package name:", "pip3 install", "", 200, 200);
+            runSudoCommand("sudo pip3 install " + package);
+        }
+        private void PIP2_Click(object sender, RoutedEventArgs e)
+        {
+            string package = Microsoft.VisualBasic.Interaction.InputBox("Enter package name:", "pip install", "", 200, 200);
+            runSudoCommand("sudo pip install " + package);
+        }
+        private void RunPython3_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Documents\\";
+            var result = fileDialog.ShowDialog();
+            string file = "";
+            switch (result)
+            {
+                case System.Windows.Forms.DialogResult.OK:
+                    file = fileDialog.FileName;
+                    break;
+                case System.Windows.Forms.DialogResult.Cancel:
+                default:
+                    break;
+            }
+            if (file != "")
+            {
+                using (var scp = new ScpClient(connection.IP, 22, connection.Username, connection.Password))
+                {
+                    scp.Connect();
+                    FileInfo from = new FileInfo(file);
+                    scp.Upload(from, "~");
 
+                    scp.Disconnect();
+                    runSudoCommand("sudo python3 " + System.IO.Path.GetFileName(file));
+                }
+            }
+        }
+        private void RunPython2_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Documents\\";
+            var result = fileDialog.ShowDialog();
+            string file = "";
+            switch (result)
+            {
+                case System.Windows.Forms.DialogResult.OK:
+                    file = fileDialog.FileName;
+                    break;
+                case System.Windows.Forms.DialogResult.Cancel:
+                default:
+                    break;
+            }
+            if (file != "")
+            {
+                using (var scp = new ScpClient(connection.IP, 22, connection.Username, connection.Password))
+                {
+                    scp.Connect();
+                    FileInfo from = new FileInfo(file);
+                    scp.Upload(from, "~");
+
+                    scp.Disconnect();
+                    runSudoCommand("sudo python " + System.IO.Path.GetFileName(file));
+                }
+            }
+        }
         private void ConnectionView_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            ssh.RunCommand("sudo shutdown now");
+            runSudoCommand("sudo shutdown -h now");
             ssh.Disconnect();
         }
-
         private void CreateConnection(Connection c)
         {
             if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Documents\\Kaldersvell Connect\\Keys\\" + "DefaultOpenSSHPrivateKey.pem"))
@@ -50,16 +131,36 @@ namespace Kaldersvell_Connect_Windows
             }
             if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Documents\\Kaldersvell Connect\\Keys\\" + "DefaultOpenSSHPrivateKey.pem"))
             {
-                using (ssh = new SshClient(CreateConnectionInfo(c)))
-                {
-                    ssh.Connect();
-                }
+                //ssh = new SshClient(CreateConnectionInfo(c));
+                ssh = new SshClient(c.IP, 22, c.Username, c.Password);
+                ssh.Connect();
+
+                termkvp = new Dictionary<Renci.SshNet.Common.TerminalModes, uint>();
+                termkvp.Add(Renci.SshNet.Common.TerminalModes.ECHO, 53);
+
+                shellStream = ssh.CreateShellStream("xterm", 80, 24, 800, 600, 1024);
+
+                runCommand("cd ~");
+                //reader = new StreamReader(shellStream);
+                //writer = new StreamWriter(shellStream);
             }
             else
             {
                 Console.WriteLine("Error creating connection");
                 return;
             }
+        }
+        private void runCommand(string s)
+        {
+            ssh.RunCommand(s);
+        }
+        private void runSudoCommand(string s)
+        {
+            var output = shellStream.Expect(new Regex(@"[$>]"));
+
+            shellStream.WriteLine(s);
+            output = shellStream.Expect(new Regex(@"([$#>:])"));
+            shellStream.WriteLine(connection.Password);
         }
         private ConnectionInfo CreateConnectionInfo(Connection d)
         {
@@ -112,6 +213,7 @@ namespace Kaldersvell_Connect_Windows
             exportEncrypted = false;
             exportedKey = key.ToOpenSshPrivateKey(exportEncrypted);
             //  Chilkat provides a SaveText method for convenience...
+            Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Documents\\Kaldersvell Connect\\Keys\\");
             success = key.SaveText(exportedKey, Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Documents\\Kaldersvell Connect\\Keys\\" + "DefaultOpenSSHPrivateKey.pem");
 
             //  ----------------------------------------------------
