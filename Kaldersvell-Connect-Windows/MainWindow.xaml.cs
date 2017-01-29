@@ -18,6 +18,8 @@ using System.Security.Cryptography;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using System.Net.NetworkInformation;
+using System.Net;
 
 namespace Kaldersvell_Connect_Windows
 {
@@ -53,8 +55,16 @@ namespace Kaldersvell_Connect_Windows
             {
                 string input = File.ReadAllText(file);
                 Connection c = JsonConvert.DeserializeObject<Connection>(input);
-                ConnectionView newConnectionView = new ConnectionView(c);
-                newConnectionView.ShowDialog();
+                Ping pingSender = new Ping();
+                IPAddress address = IPAddress.Parse(c.IP);
+                PingReply reply = pingSender.Send(address);
+
+                if (reply.Status == IPStatus.Success)
+                {
+                    ConnectionView newConnectionView = new ConnectionView(c);
+                    newConnectionView.ShowDialog();
+                }
+                
             }
         }
 
