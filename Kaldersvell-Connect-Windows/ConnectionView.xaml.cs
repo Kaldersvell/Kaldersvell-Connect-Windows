@@ -125,11 +125,14 @@ namespace Kaldersvell_Connect_Windows
         }
         private void CreateConnection(Connection c)
         {
+            /*
             if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Documents\\Kaldersvell Connect\\Keys\\" + "DefaultOpenSSHPrivateKey.pem"))
             {
                 CreateKey();
             }
             if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Documents\\Kaldersvell Connect\\Keys\\" + "DefaultOpenSSHPrivateKey.pem"))
+            {*/
+            try
             {
                 //ssh = new SshClient(CreateConnectionInfo(c));
                 ssh = new SshClient(c.IP, 22, c.Username, c.Password);
@@ -141,14 +144,20 @@ namespace Kaldersvell_Connect_Windows
                 shellStream = ssh.CreateShellStream("xterm", 80, 24, 800, 600, 1024);
 
                 runCommand("cd ~");
+            } catch
+            {
+                System.Windows.MessageBox.Show("Error connecting to device.", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                this.Close();
+            }
+
                 //reader = new StreamReader(shellStream);
                 //writer = new StreamWriter(shellStream);
-            }
+            /*}
             else
             {
                 Console.WriteLine("Error creating connection");
                 return;
-            }
+            }*/
         }
         private void runCommand(string s)
         {

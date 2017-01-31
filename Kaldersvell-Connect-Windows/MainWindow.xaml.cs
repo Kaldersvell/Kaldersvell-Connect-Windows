@@ -56,15 +56,31 @@ namespace Kaldersvell_Connect_Windows
                 string input = File.ReadAllText(file);
                 Connection c = JsonConvert.DeserializeObject<Connection>(input);
                 Ping pingSender = new Ping();
-                IPAddress address = IPAddress.Parse(c.IP);
-                PingReply reply = pingSender.Send(address);
-
-                if (reply.Status == IPStatus.Success)
+                IPAddress address;
+                if (IPAddress.TryParse(c.IP, out address))
                 {
-                    ConnectionView newConnectionView = new ConnectionView(c);
-                    newConnectionView.ShowDialog();
+                    try
+                    {
+                        PingReply reply = pingSender.Send(address);
+                        if (reply.Status == IPStatus.Success)
+                        {
+                            ConnectionView newConnectionView = new ConnectionView(c);
+                            newConnectionView.ShowDialog();
+                        }
+                        else
+                        {
+                            System.Windows.MessageBox.Show("Device not found.", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    } catch
+                    {
+                        System.Windows.MessageBox.Show("Device not found.", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    }
+                 else
+                {
+                    System.Windows.MessageBox.Show("Device not found.", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                
+
             }
         }
 
