@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"><?define Kaldersvell-Connect-Windows_TargetDir=$(var.Kaldersvell-Connect-Windows.TargetDir)?>
+	<Product Id="*" Name="Kaldersvell Connect for Windows" Language="1033" Version="0.5.0.0" Manufacturer="The Kaldersvell Project" UpgradeCode="24b9165f-75fd-4492-bc13-b65577d07f17">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate />
+
+		<Feature Id="ProductFeature" Title="Kaldersvell_Connect_Windows_Setup" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="Kaldersvell Connect" />
+			</Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+			<!-- <Component Id="ProductComponent"> -->
+				<!-- TODO: Insert files, registry keys, and other resources here. -->
+			<!-- </Component> -->
+			<Component Id="Kaldersvell_Connect.exe" Guid="4fc7df32-3fcf-4d61-b592-d9d47e7211c1">
+			  <File Id="Kaldersvell_Connect.exe" Name="Kaldersvell Connect.exe" Source="$(var.Kaldersvell-Connect-Windows_TargetDir)Kaldersvell Connect.exe" />
+			</Component>
+			<Component Id="Kaldersvell_Connect.exe.config" Guid="e91112a3-05c0-48b5-9263-9e274d07253a">
+			  <File Id="Kaldersvell_Connect.exe.config" Name="Kaldersvell Connect.exe.config" Source="$(var.Kaldersvell-Connect-Windows_TargetDir)Kaldersvell Connect.exe.config" />
+			</Component>
+			<Component Id="Newtonsoft.Json.dll" Guid="be626708-0198-44d7-a4c5-e0b7ecf61e8d">
+			  <File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="$(var.Kaldersvell-Connect-Windows_TargetDir)Newtonsoft.Json.dll" />
+			</Component>
+			<Component Id="Renci.SshNet.dll" Guid="243fb4ea-8784-45fe-ac65-35ecd2e26dbe">
+			  <File Id="Renci.SshNet.dll" Name="Renci.SshNet.dll" Source="$(var.Kaldersvell-Connect-Windows_TargetDir)Renci.SshNet.dll" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+</Wix>
