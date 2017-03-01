@@ -31,7 +31,7 @@
     <AutorunEnabled>true</AutorunEnabled>
     <DisallowUrlActivation>true</DisallowUrlActivation>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>0.5.0.0</ApplicationVersion>
+    <ApplicationVersion>0.5.1.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -57,7 +57,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>kaldersvellico.ico</ApplicationIcon>
+    <ApplicationIcon>Kaldersvell128.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
@@ -161,9 +161,12 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
-    <None Include="Properties\app.manifest" />
+    <None Include="Properties\app.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -203,8 +206,17 @@
       <Visible>False</Visible>
       <Description>Kaldersvell Connection</Description>
       <Progid>Kaldersvell-Connect-Windows.Connection.1</Progid>
-      <DefaultIcon>kaldersvellico.ico</DefaultIcon>
+      <DefaultIcon>Kaldersvell128.ico</DefaultIcon>
     </FileAssociation>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Kaldersvell256.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Kaldersvell128.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Kaldersvell64.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

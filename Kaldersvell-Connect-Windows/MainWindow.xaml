@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         MinWidth="510" MaxWidth="510" MinHeight="530" MaxHeight="530"
         Title="Kaldersvell Connect" Height="530" Width="510" Background="#FF2E2E2E"
-        Icon="kaldersvellico.ico"
+        Icon="Kaldersvell128.ico"
         >
 
     <Grid>

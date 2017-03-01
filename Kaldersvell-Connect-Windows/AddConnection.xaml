@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         MaxHeight="300" MaxWidth="300" MinHeight="300" MinWidth="300"
         Title="AddConnection" Height="300" Width="300" Background="#FF2E2E2E"
-        Icon="kaldersvellico.ico">
+        Icon="Kaldersvell128.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*" />

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"><?define Kaldersvell-Connect-Windows_TargetDir=$(var.Kaldersvell-Connect-Windows.TargetDir)?>
-	<Product Id="*" Name="Kaldersvell Connect for Windows" Language="1033" Version="0.5.0.0" Manufacturer="The Kaldersvell Project" UpgradeCode="24b9165f-75fd-4492-bc13-b65577d07f17">
+	<Product Id="*" Name="Kaldersvell Connect for Windows" Language="1033" Version="0.5.1.0" Manufacturer="The Kaldersvell Project" UpgradeCode="24b9165f-75fd-4492-bc13-b65577d07f17">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 		<MediaTemplate EmbedCab="yes"/>
-
 		<Feature Id="ProductFeature" Title="Kaldersvell Connect" Level="1">
 			<ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="ShortcutComponents" />
     </Feature>
 	</Product>
 
@@ -16,9 +16,13 @@
 			<Directory Id="ProgramFilesFolder">
 				<Directory Id="INSTALLFOLDER" Name="Kaldersvell Connect" />
 			</Directory>
+       <Directory Id="ProgramMenuFolder">
+      <Directory Id="ApplicationProgramsFolder" Name="Kaldersvell Connect"/>
+    </Directory>
 		</Directory>
-    
+
 	</Fragment>
+
 
 	<Fragment>
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
@@ -39,6 +43,16 @@
 			  <File Id="Renci.SshNet.dll" Name="Renci.SshNet.dll" Source="$(var.Kaldersvell-Connect-Windows_TargetDir)Renci.SshNet.dll" />
 			</Component>
 		</ComponentGroup>
-
+    <ComponentGroup Id="ShortcutComponents" Directory="ApplicationProgramsFolder">
+        <Component Id="ApplicationShortcut" Guid="6C52AE95-E25A-4335-9D8A-24F544F886B3">
+            <Shortcut Id="ApplicationStartMenuShortcut" 
+                      Name="Kaldersvell Connect"
+                      Target="[#Kaldersvell_Connect.exe]"
+                      WorkingDirectory="INSTALLFOLDER"/>
+            <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+            <RegistryValue Root="HKCU" Key="Software\Microsoft\Kaldersvell-Connect" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+        </Component>
+   </ComponentGroup>
 	</Fragment>
+
 </Wix>
